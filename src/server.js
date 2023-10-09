@@ -2,14 +2,36 @@ const express = require("express");
 
 const app = express();
 
-// // http://localhost:5001/
-// app.use("/", express.static("blank"));
-// // http://localhost:5001/example
-// app.use("/example", express.static("example"));
+app.use(express.json());
 
-app.use("/", express.static("bookHome"));
-app.use("/about", express.static("bookAbout"));
-app.use("/contact", express.static("bookContact"));
+app.get("/books", (request, response) => {
+  console.log(request.originalUrl);
+  const book = {
+    title: "lord of the rings",
+    author: "tolkein",
+    genre: "fantasy",
+  };
+  const successResponse = {
+    message: "success",
+    book: book,
+  };
+
+  response.send(successResponse);
+});
+
+app.post("/books", (request, response) => {
+  const newBook = {
+    title: request.body.title,
+    author: request.body.author,
+    genre: request.body.genre,
+  };
+
+  const successResponse = {
+    message: "success",
+    newBook: newBook,
+  };
+  response.send(successResponse);
+});
 
 app.listen(5001, () => {
   console.log("server is listening");
