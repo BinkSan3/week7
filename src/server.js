@@ -36,33 +36,62 @@ const bookSchema = new mongoose.Schema({
 
 const Book = mongoose.model("book", bookSchema);
 
-app.get("/books", (request, response) => {
+app.get("/books", async (request, response) => {
   console.log(request.originalUrl);
-  const book = {
-    title: "lord of the rings",
-    author: "tolkein",
-    genre: "fantasy",
-  };
+  const books = await Book.find();
   const successResponse = {
     message: "success",
-    book: book,
+    books: books,
   };
 
   response.send(successResponse);
 });
 
-app.post("/books", (request, response) => {
-  const newBook = {
+app.post("/books", async (request, response) => {
+  const newBook = await Book.create({
     title: request.body.title,
     author: request.body.author,
     genre: request.body.genre,
-  };
+  });
+  console.log("??????", newBook);
 
   const successResponse = {
     message: "success",
     newBook: newBook,
   };
   response.send(successResponse);
+});
+
+app.put("/books", async (request, response) => {
+  console.log(request.body);
+  const query = { title: request.body.title };
+  const updateBookAuthorByTitle = await Book.findOneAndUpdate(query, {
+    author: request.body.author,
+  });
+  const successResponse = {
+    message: "success",
+    updateBookAuthorByTitle: updateBookAuthorByTitle,
+  };
+  response.send(successResponse);
+});
+
+app.delete("/books", async (request, response) => {
+  const deleteBook = await Book.deleteOne({ title: request.body.title });
+
+  const successResponse = {
+    message: "success",
+    deleteBook: deleteBook,
+  };
+  response.send(successResponse);
+});
+
+app.get("/books/:id", async (req, res) => {
+  // const bookName = req.params;
+  // console.log(bookName);
+  const id = req.params.id * 1;
+  console.log(id);
+
+  res.send("TESTESTEST");
 });
 
 app.listen(5001, () => {
