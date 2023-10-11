@@ -1,24 +1,13 @@
 require("dotenv").config();
-
 const express = require("express");
 console.log("!!!!!!!", process.env.MONGODB_URI);
-
 const mongoose = require("mongoose");
+
+require("./db/connection");
 
 const app = express();
 
 app.use(express.json());
-
-async function connection() {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI);
-    console.log("Successfully connected");
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-connection();
 
 const bookSchema = new mongoose.Schema({
   title: {
@@ -85,14 +74,14 @@ app.delete("/books", async (request, response) => {
   response.send(successResponse);
 });
 
-app.get("/books/:id", async (req, res) => {
-  // const bookName = req.params;
-  // console.log(bookName);
-  const id = req.params.id * 1;
-  console.log(id);
+// app.get("/books/:id", async (req, res) => {
+//   // const bookName = req.params;
+//   // console.log(bookName);
+//   const id = req.params.id * 1;
+//   console.log(id);
 
-  res.send("TESTESTEST");
-});
+//   res.send("TESTESTEST");
+// });
 
 app.listen(5001, () => {
   console.log("server is listening");
