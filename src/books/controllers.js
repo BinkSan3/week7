@@ -49,9 +49,49 @@ const deleteBook = async (request, response) => {
   response.send(successResponse);
 };
 
+const updateBook = async (req, res) => {
+  const bookFound = await Book.findOne({ title: req.params.title });
+  res.send(bookFound);
+};
+
+const updateBookDynamic = async (request, response) => {
+  const updateBookDynamically = await Book.findOneAndUpdate(
+    { title: request.body.title },
+    { [request.body.key]: request.body.value },
+    {
+      returnDocument: "after",
+    }
+  );
+
+  const successResponse = {
+    message: "success",
+    updateBookDynamically: updateBookDynamically,
+  };
+  response.send(successResponse);
+};
+
+const deleteAllAndOne = async (request, response) => {
+  if (request.body.title) {
+    const deleteSingle = await Book.deleteMany({ title: request.body.title });
+    response.send(`Deleted ${request.body.title}`);
+  } else {
+    const deleteAll = await Book.deleteMany({});
+    response.send(`Deleted all`);
+  }
+
+  const successResponse = {
+    message: "success",
+  };
+
+  response.send(successResponse);
+};
+
 module.exports = {
   findAllBooks: findAllBooks,
   addBook: addBook,
   updateBookAuthor: updateBookAuthor,
   deleteBook: deleteBook,
+  updateBook: updateBook,
+  updateBookDynamic: updateBookDynamic,
+  deleteAllAndOne: deleteAllAndOne,
 };

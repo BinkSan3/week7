@@ -7,6 +7,9 @@ const {
   addBook,
   updateBookAuthor,
   deleteBook,
+  updateBook,
+  updateBookDynamic,
+  deleteAllAndOne,
 } = require("./controllers");
 
 //change bookRouter. to bookRouter.
@@ -18,14 +21,11 @@ bookRouter.put("/books", updateBookAuthor);
 
 bookRouter.delete("/books", deleteBook);
 
-// bookRouter.get("/books/:id", async (req, res) => {
-//   // const bookName = req.params;
-//   // console.log(bookName);
-//   const id = req.params.id * 1;
-//   console.log(id);
+bookRouter.get("/books/:title", updateBook);
 
-//   res.send("TESTESTEST");
-// });
+bookRouter.put("/books/dynamic", updateBookDynamic);
+
+bookRouter.delete("/books/deletion", deleteAllAndOne);
 
 // at bottom
 
