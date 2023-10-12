@@ -10,6 +10,7 @@ const {
   updateBook,
   updateBookDynamic,
   deleteAllAndOne,
+  findBookByTitle,
 } = require("./controllers");
 
 //change bookRouter. to bookRouter.
@@ -21,7 +22,7 @@ bookRouter.put("/books", updateBookAuthor);
 
 bookRouter.delete("/books", deleteBook);
 
-bookRouter.get("/books/:title", updateBook);
+bookRouter.get("/books/:title", findBookByTitle);
 
 bookRouter.put("/books/dynamic", updateBookDynamic);
 

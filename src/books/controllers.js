@@ -49,7 +49,7 @@ const deleteBook = async (request, response) => {
   response.send(successResponse);
 };
 
-const updateBook = async (req, res) => {
+const findBookByTitle = async (req, res) => {
   const bookFound = await Book.findOne({ title: req.params.title });
   res.send(bookFound);
 };
@@ -71,19 +71,13 @@ const updateBookDynamic = async (request, response) => {
 };
 
 const deleteAllAndOne = async (request, response) => {
-  if (request.body.title) {
-    const deleteSingle = await Book.deleteMany({ title: request.body.title });
-    response.send(`Deleted ${request.body.title}`);
-  } else {
+  if (!request.body.title) {
     const deleteAll = await Book.deleteMany({});
     response.send(`Deleted all`);
+  } else {
+    const deleteSingle = await Book.deleteOne({ title: request.body.title });
+    response.send(`Deleted ${request.body.title}`);
   }
-
-  const successResponse = {
-    message: "success",
-  };
-
-  response.send(successResponse);
 };
 
 module.exports = {
@@ -91,7 +85,7 @@ module.exports = {
   addBook: addBook,
   updateBookAuthor: updateBookAuthor,
   deleteBook: deleteBook,
-  updateBook: updateBook,
+  findBookByTitle: findBookByTitle,
   updateBookDynamic: updateBookDynamic,
   deleteAllAndOne: deleteAllAndOne,
 };
